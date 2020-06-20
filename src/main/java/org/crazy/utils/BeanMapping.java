@@ -1,6 +1,6 @@
 package org.crazy.utils;
 
-import com.sun.istack.internal.NotNull;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.crazy.common.Assert;
 
@@ -23,7 +23,7 @@ public class BeanMapping {
      * @param <R>    目标类型
      * @return R
      */
-    public static <T, R> R toBean(@NotNull T source, @NotNull Class<R> target) {
+    public static <T, R> R toBean(@NonNull T source, @NonNull Class<R> target) {
         return toBean(source, target, null);
     }
 
@@ -36,7 +36,7 @@ public class BeanMapping {
      * @param biConsumer 数据源字段与目标字段不同,可通过手动映射
      * @return R
      */
-    public static <T, R> R toBean(@NotNull T source, @NotNull Class<R> target, BiConsumer<T, R> biConsumer) {
+    public static <T, R> R toBean(@NonNull T source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         R instance = getInstanceObject(source, target);
@@ -54,7 +54,7 @@ public class BeanMapping {
      * @param <R>    目标类型
      * @return List<R>
      */
-    public static <T, R> List<R> toList(@NotNull Collection<T> source, @NotNull Class<R> target) {
+    public static <T, R> List<R> toList(@NonNull Collection<T> source, @NonNull Class<R> target) {
         return toList(source, target, null);
     }
 
@@ -66,7 +66,7 @@ public class BeanMapping {
      * @param <R>    目标类型
      * @return List<R>
      */
-    public static <T, R> List<R> toList(@NotNull Collection<T> source, @NotNull Class<R> target, BiConsumer<T, R> biConsumer) {
+    public static <T, R> List<R> toList(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         List<R> targetCollection = new ArrayList<>();
@@ -82,7 +82,7 @@ public class BeanMapping {
      * @param <R>    目标类型
      * @return Set<R>
      */
-    public static <T, R> Set<R> toSet(@NotNull Collection<T> source, @NotNull Class<R> target) {
+    public static <T, R> Set<R> toSet(@NonNull Collection<T> source, @NonNull Class<R> target) {
         return toSet(source, target, null);
     }
 
@@ -95,7 +95,7 @@ public class BeanMapping {
      * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
      * @return Set<R>
      */
-    public static <T, R> Set<R> toSet(@NotNull Collection<T> source, @NotNull Class<R> target, BiConsumer<T, R> biConsumer) {
+    public static <T, R> Set<R> toSet(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         Set<R> targetCollection = new HashSet<>();
