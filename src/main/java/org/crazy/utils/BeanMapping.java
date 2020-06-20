@@ -1,5 +1,6 @@
 package org.crazy.utils;
 
+import com.alibaba.fastjson.JSON;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.crazy.common.Assert;
@@ -10,7 +11,7 @@ import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 1.0
+ * @version 1.1
  */
 @Slf4j
 public class BeanMapping {
@@ -109,7 +110,7 @@ public class BeanMapping {
     }
 
     /**
-     * 映射一个新的JSON实例
+     * 映射一个新的JSON字符串实例
      * @param source     数据源
      * @param target     目标
      * @param biConsumer 数据源字段与目标字段不同,可通过手动映射
@@ -119,64 +120,61 @@ public class BeanMapping {
     public static <T, R> String toJsonBean(@NonNull T source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
-        // todo
-        return null;
+        return JSON.toJSONString(toBean(source, target, biConsumer));
     }
 
     /**
-     * 映射一个新的JsonList
+     * 映射一个新的Json字符串List
      * @param source 数据源
      * @param target 目标
      * @param <T>    数据源类型
      * @param <R>    目标类型
      */
-    public static <T, R> List<R> toJsonList(@NonNull Collection<T> source, @NonNull Class<R> target) {
+    public static <T, R> String toJsonList(@NonNull Collection<T> source, @NonNull Class<R> target) {
         return toJsonList(source, target, null);
     }
 
     /**
-     * 映射一个新的JsonList
+     * 映射一个新的Json字符串List
      * @param source 数据源
      * @param target 目标
      * @param <T>    数据源类型
      * @param <R>    目标类型
      */
-    public static <T, R> List<R> toJsonList(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
+    public static <T, R> String toJsonList(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
-//        List<R> targetCollection = new ArrayList<>();
-//        getInstanceCollection(targetCollection, source, target, biConsumer);
-        // todo
-        return null;
+        List<R> targetCollection = new ArrayList<>();
+        getInstanceCollection(targetCollection, source, target, biConsumer);
+        return JSON.toJSONString(targetCollection);
     }
 
 
     /**
-     * 映射一个新的JsonSet
+     * 映射一个新的Json字符串Set
      * @param source 数据源
      * @param target 目标
      * @param <T>    数据源类型
      * @param <R>    目标类型
      */
-    public static <T, R> Set<R> toJsonSet(@NonNull Collection<T> source, @NonNull Class<R> target) {
+    public static <T, R> String toJsonSet(@NonNull Collection<T> source, @NonNull Class<R> target) {
         return toJsonSet(source, target, null);
     }
 
     /**
-     * 映射一个新的JsonSet
+     * 映射一个新的Json字符串Set
      * @param source     数据源
      * @param target     目标
      * @param <T>        数据源类型
      * @param <R>        目标类型
      * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
      */
-    public static <T, R> Set<R> toJsonSet(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
+    public static <T, R> String toJsonSet(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
-//        Set<R> targetCollection = new HashSet<>();
-//        getInstanceCollection(targetCollection, source, target, biConsumer);
-        // todo
-        return null;
+        Set<R> targetCollection = new HashSet<>();
+        getInstanceCollection(targetCollection, source, target, biConsumer);
+        return JSON.toJSONString(targetCollection);
     }
 
     private static <T, R> R getInstanceObject(T source, Class<R> target) {

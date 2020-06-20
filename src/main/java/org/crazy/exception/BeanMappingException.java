@@ -2,7 +2,7 @@ package org.crazy.exception;
 
 /**
  * @author Crazy.X
- * @version 1.0
+ * @version 1.1
  */
 public class BeanMappingException extends RuntimeException {
 
