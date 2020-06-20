@@ -12,5 +12,7 @@ public class Man {
 
     private String age;
 
+    private String gender;
+
     private LocalDateTime localDateTime;
 }

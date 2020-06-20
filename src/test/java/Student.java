@@ -14,5 +14,7 @@ public class Student {
 
     private Integer age;
 
+    private String sex;
+
     private LocalDateTime localDateTime;
 }
