@@ -97,6 +97,88 @@ public class BeanMapping {
         return targetCollection;
     }
 
+    /**
+     * 映射一个新的JSON实例
+     * @param source 数据源
+     * @param target 目标
+     * @param <T>    数据源类型
+     * @param <R>    目标类型
+     */
+    public static <T, R> String toJsonBean(@NonNull T source, @NonNull Class<R> target) {
+        return toJsonBean(source, target, null);
+    }
+
+    /**
+     * 映射一个新的JSON实例
+     * @param source     数据源
+     * @param target     目标
+     * @param biConsumer 数据源字段与目标字段不同,可通过手动映射
+     * @param <T>        数据源类型
+     * @param <R>        目标类型
+     */
+    public static <T, R> String toJsonBean(@NonNull T source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
+        Assert.notNull(source, "Source must not be null");
+        Assert.notNull(target, "target must not be null");
+        // todo
+        return null;
+    }
+
+    /**
+     * 映射一个新的JsonList
+     * @param source 数据源
+     * @param target 目标
+     * @param <T>    数据源类型
+     * @param <R>    目标类型
+     */
+    public static <T, R> List<R> toJsonList(@NonNull Collection<T> source, @NonNull Class<R> target) {
+        return toJsonList(source, target, null);
+    }
+
+    /**
+     * 映射一个新的JsonList
+     * @param source 数据源
+     * @param target 目标
+     * @param <T>    数据源类型
+     * @param <R>    目标类型
+     */
+    public static <T, R> List<R> toJsonList(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
+        Assert.notNull(source, "Source must not be null");
+        Assert.notNull(target, "target must not be null");
+//        List<R> targetCollection = new ArrayList<>();
+//        getInstanceCollection(targetCollection, source, target, biConsumer);
+        // todo
+        return null;
+    }
+
+
+    /**
+     * 映射一个新的JsonSet
+     * @param source 数据源
+     * @param target 目标
+     * @param <T>    数据源类型
+     * @param <R>    目标类型
+     */
+    public static <T, R> Set<R> toJsonSet(@NonNull Collection<T> source, @NonNull Class<R> target) {
+        return toJsonSet(source, target, null);
+    }
+
+    /**
+     * 映射一个新的JsonSet
+     * @param source     数据源
+     * @param target     目标
+     * @param <T>        数据源类型
+     * @param <R>        目标类型
+     * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
+     */
+    public static <T, R> Set<R> toJsonSet(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
+        Assert.notNull(source, "Source must not be null");
+        Assert.notNull(target, "target must not be null");
+//        Set<R> targetCollection = new HashSet<>();
+//        getInstanceCollection(targetCollection, source, target, biConsumer);
+        // todo
+        return null;
+    }
+
     private static <T, R> R getInstanceObject(T source, Class<R> target) {
         R instance = null;
         try {
