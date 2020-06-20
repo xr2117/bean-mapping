@@ -1,6 +1,7 @@
 package org.crazy.common;
 
-import com.sun.istack.internal.Nullable;
+
+import lombok.NonNull;
 
 /**
  * @author Crazy.X
@@ -8,7 +9,7 @@ import com.sun.istack.internal.Nullable;
  */
 public class Assert {
 
-    public static void notNull(@Nullable Object object, String message) {
+    public static void notNull(@NonNull Object object, String message) {
         if (object == null) {
             throw new IllegalArgumentException(message);
         }
