@@ -6,14 +6,10 @@
     <groupId>com.github.xr2117</groupId>
     <artifactId>bean-mapping</artifactId>
     <version>1.0</version>
+
     <name>BeanMapping工具包</name>
     <url>https://github.com/xr2117/bean-mapping</url>
-
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>8</version>
-    </parent>
+    <description>BeanMapping工具包</description>
 
     <licenses>
         <license>
@@ -22,18 +18,19 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
     <scm>
-        <connection>scm:git:git@github.com:xr2117/bean-mapping.git</connection>
-        <developerConnection>scm:git:git@github.com:xr2117/bean-mapping.git</developerConnection>
         <url>https://github.com/xr2117/bean-mapping</url>
+        <connection>https://github.com/xr2117/bean-mapping.git</connection>
+        <developerConnection>https://github.com/xr2117</developerConnection>
     </scm>
+
 
     <!-- 开发者信息 -->
     <developers>
         <developer>
-            <name>XueRi</name>
-            <email>xr2117@126.com</email>
+            <name>xr2117</name>
+            <email>xiweipen@sina.com</email>
+            <url>https://github.com/xr2117</url>
             <timezone>+8</timezone>
         </developer>
     </developers>
@@ -72,13 +69,27 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
-            <id>default</id>
+            <id>release</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-
             <build>
                 <plugins>
                     <plugin>
@@ -96,16 +107,21 @@
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <source>8</source>
-                            <target>8</target>
-                        </configuration>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>1.5</version>
                         <executions>
                             <execution>
                                 <phase>verify</phase>
@@ -120,7 +136,7 @@
             <distributionManagement>
                 <snapshotRepository>
                     <id>ossrh</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
                 </snapshotRepository>
                 <repository>
                     <id>ossrh</id>
@@ -129,4 +145,6 @@
             </distributionManagement>
         </profile>
     </profiles>
+
+
 </project>

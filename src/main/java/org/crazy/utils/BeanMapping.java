@@ -21,7 +21,6 @@ public class BeanMapping {
      * @param target 目标
      * @param <T>    数据源类型
      * @param <R>    目标类型
-     * @return R
      */
     public static <T, R> R toBean(@NonNull T source, @NonNull Class<R> target) {
         return toBean(source, target, null);
@@ -34,7 +33,6 @@ public class BeanMapping {
      * @param <T>        数据源类型
      * @param <R>        目标类型
      * @param biConsumer 数据源字段与目标字段不同,可通过手动映射
-     * @return R
      */
     public static <T, R> R toBean(@NonNull T source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
@@ -52,7 +50,6 @@ public class BeanMapping {
      * @param target 目标
      * @param <T>    数据源类型
      * @param <R>    目标类型
-     * @return List<R>
      */
     public static <T, R> List<R> toList(@NonNull Collection<T> source, @NonNull Class<R> target) {
         return toList(source, target, null);
@@ -64,7 +61,6 @@ public class BeanMapping {
      * @param target 目标
      * @param <T>    数据源类型
      * @param <R>    目标类型
-     * @return List<R>
      */
     public static <T, R> List<R> toList(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
@@ -80,7 +76,6 @@ public class BeanMapping {
      * @param target 目标
      * @param <T>    数据源类型
      * @param <R>    目标类型
-     * @return Set<R>
      */
     public static <T, R> Set<R> toSet(@NonNull Collection<T> source, @NonNull Class<R> target) {
         return toSet(source, target, null);
@@ -93,7 +88,6 @@ public class BeanMapping {
      * @param <T>        数据源类型
      * @param <R>        目标类型
      * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
-     * @return Set<R>
      */
     public static <T, R> Set<R> toSet(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
