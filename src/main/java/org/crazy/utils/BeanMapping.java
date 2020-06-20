@@ -3,7 +3,6 @@ package org.crazy.utils;
 import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.crazy.common.Assert;
-import org.crazy.exception.BeanMappingException;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -129,10 +128,8 @@ public class BeanMapping {
                     }
                 }
             } catch (NoSuchFieldException e) {
-                log.error("对象映射出错, 原对象类型: {}, 目标对象类型: {}", source, target);
-                throw new BeanMappingException();
+                // todo
             }
-
         }
         return instance;
     }

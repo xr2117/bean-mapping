@@ -17,7 +17,7 @@ public class BeanMappingDemo {
      */
     @Test
     public void fun1() {
-        Student student = new Student("kobe", 18, LocalDateTime.now());
+        Student student = new Student("kobe", 18, "男", LocalDateTime.now());
         Man man = BeanMapping.toBean(student, Man.class);
         System.out.println(man);
     }
@@ -29,9 +29,10 @@ public class BeanMappingDemo {
      */
     @Test
     public void fun2() {
-        Student student = new Student("kobe", 18, LocalDateTime.now());
-        Man man = BeanMapping.toBean(student, Man.class, (s, t) -> t.setAge(String.valueOf(s.getAge())));
-        System.out.println(man);
+        Student student = new Student("kobe", 18, "男", LocalDateTime.now());
+//        Man man = BeanMapping.toBean(student, Man.class, (s, t) -> t.setGender(s.getSex()));
+        Man man1 = BeanMapping.toBean(student, Man.class);
+        System.out.println(man1);
     }
 
     /**
@@ -41,8 +42,8 @@ public class BeanMappingDemo {
      */
     @Test
     public void fun3() {
-        Student s1 = new Student("kobe", 18, LocalDateTime.now());
-        Student s2 = new Student("james", 18, LocalDateTime.now());
+        Student s1 = new Student("kobe", 18, "男", LocalDateTime.now());
+        Student s2 = new Student("james", 18, "男", LocalDateTime.now());
         List<Man> men = BeanMapping.toList(Arrays.asList(s1, s2), Man.class, (s, t) -> t.setAge(String.valueOf(s.getAge())));
         System.out.println(men);
     }
@@ -54,9 +55,9 @@ public class BeanMappingDemo {
      */
     @Test
     public void fun4() {
-        Student s1 = new Student("kobe", 28, LocalDateTime.now());
-        Student s2 = new Student("james", 18, LocalDateTime.now());
-        Student s3 = new Student("kobe", 28, LocalDateTime.now());
+        Student s1 = new Student("kobe", 28, "男", LocalDateTime.now());
+        Student s2 = new Student("james", 18, "男", LocalDateTime.now());
+        Student s3 = new Student("kobe", 28, "男", LocalDateTime.now());
         Set<Man> men = BeanMapping.toSet(Arrays.asList(s1, s2, s3), Man.class, (s, t) -> t.setAge(String.valueOf(s.getAge())));
         System.out.println(men);
     }
