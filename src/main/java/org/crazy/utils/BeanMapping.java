@@ -2,7 +2,6 @@ package org.crazy.utils;
 
 import com.alibaba.fastjson.JSON;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import org.crazy.common.Assert;
 
 import java.lang.reflect.Field;
@@ -13,7 +12,6 @@ import java.util.function.BiConsumer;
  * @author Crazy.X
  * @version 1.2
  */
-@Slf4j
 public class BeanMapping {
 
     /**
