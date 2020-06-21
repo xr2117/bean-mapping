@@ -15,3 +15,11 @@
 ##### 修复
 1.修复目标对象缺少无参构造方法引发异常问题
 
+##### maven依赖
+```xml
+<dependency>
+  <groupId>com.github.xr2117</groupId>
+  <artifactId>bean-mapping</artifactId>
+  <version>2.0</version>
+</dependency>
+```
