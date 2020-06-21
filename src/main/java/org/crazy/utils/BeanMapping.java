@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 1.2
+ * @version 1.3
  */
 public class BeanMapping {
 
