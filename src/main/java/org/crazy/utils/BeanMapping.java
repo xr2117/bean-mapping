@@ -11,7 +11,7 @@ import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 1.1
+ * @version 1.2
  */
 @Slf4j
 public class BeanMapping {
@@ -178,9 +178,9 @@ public class BeanMapping {
      * 映射一个新的Json字符串Set
      * @param source     数据源
      * @param target     目标
+     * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
      * @param <T>        数据源类型
      * @param <R>        目标类型
-     * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
      * @return 返回R类型的实例Set集合的Json字符串
      */
     public static <T, R> String toJsonSet(@NonNull Collection<T> source, @NonNull Class<R> target, BiConsumer<T, R> biConsumer) {
