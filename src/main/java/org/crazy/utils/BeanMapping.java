@@ -75,6 +75,72 @@ public class BeanMapping {
     }
 
     /**
+     * 映射一个新的范围List
+     * @param source 数据源
+     * @param target 目标
+     * @param skip   跳过
+     * @param <T>    数据源类型
+     * @param <R>    目标类型
+     * @return 返回R类型范围的实例List集合
+     */
+    public static <T, R> List<R> toListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip) {
+        return toListRange(source, target, skip, source.size());
+    }
+
+
+    /**
+     * 映射一个新的范围List
+     * @param source     数据源
+     * @param target     目标
+     * @param skip       跳过
+     * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
+     * @param <T>        数据源类型
+     * @param <R>        目标类型
+     * @return 返回R类型范围的实例List集合
+     */
+    public static <T, R> List<R> toListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip, BiConsumer<T, R> biConsumer) {
+        return toListRange(source, target, skip, source.size(), biConsumer);
+    }
+
+    /**
+     * 映射一个新的范围List
+     * @param source 数据源
+     * @param target 目标
+     * @param skip   跳过
+     * @param limit  截止
+     * @param <T>    数据源类型
+     * @param <R>    目标类型
+     * @return 返回R类型范围的实例List集合
+     */
+    public static <T, R> List<R> toListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip, @NonNull int limit) {
+        return toListRange(source, target, skip, limit, null);
+    }
+
+    /**
+     * 映射一个新的范围List
+     * @param source     数据源
+     * @param target     目标
+     * @param skip       跳过
+     * @param limit      截止(包含)
+     * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
+     * @param <T>        数据源类型
+     * @param <R>        目标类型
+     * @return 返回R类型范围的实例List集合
+     */
+    public static <T, R> List<R> toListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip, @NonNull int limit, BiConsumer<T, R> biConsumer) {
+        Assert.notNull(source, "Source must not be null");
+        Assert.notNull(target, "target must not be null");
+        if (skip > source.size() || limit < skip || limit < 0 || skip == limit) {
+            return Collections.emptyList();
+        }
+        List<R> targetCollection = new ArrayList<>();
+        int end = limit > source.size() ? source.size() : limit;
+        getInstanceCollection(targetCollection, source.subList(skip < 0 ? 0 : skip, end), target, biConsumer);
+        toList(source, target, null);
+        return targetCollection;
+    }
+
+    /**
      * 映射一个新的Set
      * @param source 数据源
      * @param target 目标
@@ -159,6 +225,62 @@ public class BeanMapping {
         return JSON.toJSONString(targetCollection);
     }
 
+    /**
+     * 映射一个新的范围JsonList
+     * @param source 数据源
+     * @param target 目标
+     * @param skip   跳过
+     * @param <T>    数据源类型
+     * @param <R>    目标类型
+     * @return 返回R类型范围的实例JsonList集合
+     */
+    public static <T, R> String toJsonListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip) {
+        return toJsonListRange(source, target, skip, source.size());
+    }
+
+
+    /**
+     * 映射一个新的范围JsonList
+     * @param source     数据源
+     * @param target     目标
+     * @param skip       跳过
+     * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
+     * @param <T>        数据源类型
+     * @param <R>        目标类型
+     * @return 返回R类型范围的实例JsonList集合
+     */
+    public static <T, R> String toJsonListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip, BiConsumer<T, R> biConsumer) {
+        return toJsonListRange(source, target, skip, source.size(), biConsumer);
+    }
+
+    /**
+     * 映射一个新的范围JsonList
+     * @param source 数据源
+     * @param target 目标
+     * @param skip   跳过
+     * @param limit  截止
+     * @param <T>    数据源类型
+     * @param <R>    目标类型
+     * @return 返回R类型范围的实例JsonList集合
+     */
+    public static <T, R> String toJsonListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip, @NonNull int limit) {
+        return toJsonListRange(source, target, skip, limit, null);
+    }
+
+    /**
+     * 映射一个新的范围JsonList
+     * @param source     数据源
+     * @param target     目标
+     * @param skip       跳过
+     * @param limit      截止(包含)
+     * @param biConsumer biConsumer 数据源字段与目标字段不同,可通过手动映射
+     * @param <T>        数据源类型
+     * @param <R>        目标类型
+     * @return 返回R类型范围的实例JsonList集合
+     */
+    public static <T, R> String toJsonListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip, @NonNull int limit, BiConsumer<T, R> biConsumer) {
+        return JSON.toJSONString(toListRange(source, target, skip, limit, biConsumer));
+    }
 
     /**
      * 映射一个新的Json字符串Set
@@ -193,8 +315,12 @@ public class BeanMapping {
         R instance = null;
         try {
             instance = target.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
+        } catch (InstantiationException e) {
+            System.err.println("目标类:" + target.getName() + "缺少无参构造方法");
+            e.printStackTrace();
+            return null;
         }
         Class<?> cla = source.getClass();
         Field[] declaredFields = cla.getDeclaredFields();
