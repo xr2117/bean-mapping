@@ -1,5 +1,5 @@
-import org.crazy.utils.BeanMapping;
 import org.junit.Test;
+import org.map.utils.BeanMapping;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -18,7 +18,10 @@ public class BeanMappingDemo {
     public void toBeanTest() {
         Student student = new Student("kobe", 18, "男", LocalDateTime.now());
         Man man1 = BeanMapping.toBean(student, Man.class);
-        Man man2 = BeanMapping.toBean(student, Man.class, (s, t) -> t.setGender(s.getSex()));
+        Man man2 = BeanMapping.toBean(student, Man.class, (s, t) -> {
+            t.setGender(s.getSex());
+            t.setAge(s.getAge().toString());
+        });
         System.out.println(man1);
         System.out.println(man2);
     }

@@ -1,11 +1,11 @@
-package org.crazy.common;
+package org.map.common;
 
 
 import lombok.NonNull;
 
 /**
  * @author Crazy.X
- * @version 2.1
+ * @version 2.1.0
  */
 public class Assert {
 
