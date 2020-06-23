@@ -7,9 +7,9 @@
     <artifactId>bean-mapping</artifactId>
     <version>2.1</version>
 
-    <name>BeanMapping工具包</name>
+    <name>BeanMapping</name>
     <url>https://github.com/xr2117/bean-mapping</url>
-    <description>BeanMapping工具包</description>
+    <description>BeanMapping</description>
 
     <licenses>
         <license>
