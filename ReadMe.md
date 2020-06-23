@@ -26,11 +26,15 @@
 ##### 修复
 1.修复映射类为抽象类错误
 
+##### 2.1.0 版本发布
+##### 修复
+1.修复映射类型不一致抛出异常
+
 ##### maven依赖
 ```xml
 <dependency>
   <groupId>com.github.xr2117</groupId>
   <artifactId>bean-mapping</artifactId>
-  <version>2.1</version>
+  <version>2.1.0</version>
 </dependency>
 ```

@@ -1,21 +1,18 @@
-package org.crazy.utils;
+package org.map.utils;
 
 import com.alibaba.fastjson.JSON;
 import lombok.NonNull;
-import org.crazy.common.Assert;
+import org.map.common.Assert;
+import org.map.core.Mapping;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 2.1
+ * @version 2.1.0
  */
-public class BeanMapping {
+public class BeanMapping extends Mapping {
 
     /**
      * 映射一个新的实例
@@ -42,7 +39,7 @@ public class BeanMapping {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         R instance = getInstanceObject(source, target);
-        if (instance != null && biConsumer != null) {
+        if (!Objects.isNull(instance) && biConsumer != null) {
             biConsumer.accept(source, instance);
         }
         return instance;
@@ -89,7 +86,6 @@ public class BeanMapping {
     public static <T, R> List<R> toListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip) {
         return toListRange(source, target, skip, source.size());
     }
-
 
     /**
      * 映射一个新的范围List
@@ -241,7 +237,6 @@ public class BeanMapping {
         return toJsonListRange(source, target, skip, source.size());
     }
 
-
     /**
      * 映射一个新的范围JsonList
      * @param source     数据源
@@ -312,86 +307,5 @@ public class BeanMapping {
         Set<R> targetCollection = new HashSet<>();
         getInstanceCollection(targetCollection, source, target, biConsumer);
         return JSON.toJSONString(targetCollection);
-    }
-
-    private static <T, R> R getInstanceObject(T source, Class<R> target) {
-        R instance;
-        try {
-            instance = target.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            System.err.println("目标类:" + target.getName() + "不能被实例化");
-            return null;
-        } catch (NoSuchMethodException | InvocationTargetException e) {
-            System.err.println("目标类:" + target.getName() + "缺少默认构造方法");
-            e.printStackTrace();
-            return null;
-        }
-        Set<Field> declaredFields = new HashSet<>();
-        getSourceFields(source.getClass(), declaredFields);
-
-        for (Field field : declaredFields) {
-            HashMap<String, Field> fieldMap = new HashMap<>();
-
-            getInstanceFields(instance.getClass(), fieldMap);
-            if (fieldMap.containsKey(field.getName())) {
-                Field instanceField = fieldMap.get(field.getName());
-                field.setAccessible(true);
-                instanceField.setAccessible(true);
-                try {
-                    Object val = field.get(source);
-                    instanceField.set(instance, val);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return instance;
-    }
-
-    private static <T> void getSourceFields(Class<T> sourceCla, Set<Field> declaredFields) {
-        boolean serialize = false;
-        if (!Object.class.equals(sourceCla.getSuperclass())) {
-            getSourceFields(sourceCla.getSuperclass(), declaredFields);
-        }
-        Class<?>[] interfaces = sourceCla.getInterfaces();
-        for (Class<?> inter : interfaces) {
-            if (Serializable.class.equals(inter)) {
-                serialize = true;
-                break;
-            }
-        }
-        Field[] fields = sourceCla.getDeclaredFields();
-        // Static property does not map
-        for (Field field : fields) {
-            if (serialize) {
-                if (!Modifier.isStatic(field.getModifiers()) || !field.getName().contains("serial")) {
-                    declaredFields.add(field);
-                }
-            } else {
-                if (!Modifier.isStatic(field.getModifiers())) {
-                    declaredFields.add(field);
-                }
-            }
-        }
-    }
-
-    private static <T> void getInstanceFields(Class<?> instanceCla, HashMap<String, Field> declaredFields) {
-        if (!Object.class.equals(instanceCla.getSuperclass())) {
-            getInstanceFields(instanceCla.getSuperclass(), declaredFields);
-        }
-        Field[] fields = instanceCla.getDeclaredFields();
-        for (Field field : fields) {
-            declaredFields.put(field.getName(), field);
-        }
-    }
-
-    private static <T, R> void getInstanceCollection(Collection<R> targetCollection, Collection<T> source, Class<R> target, BiConsumer<T, R> biConsumer) {
-        for (T t : source) {
-            R instance = getInstanceObject(t, target);
-            if (biConsumer != null) {
-                biConsumer.accept(t, instance);
-            }
-            targetCollection.add(instance);
-        }
     }
 }
