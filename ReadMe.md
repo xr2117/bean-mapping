@@ -31,6 +31,6 @@
 <dependency>
   <groupId>com.github.xr2117</groupId>
   <artifactId>bean-mapping</artifactId>
-  <version>2.1.0</version>
+  <version>2.1</version>
 </dependency>
 ```
