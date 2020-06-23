@@ -5,12 +5,13 @@ import lombok.NonNull;
 import org.crazy.common.Assert;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 2.0
+ * @version 2.0.1
  */
 public class BeanMapping {
 
@@ -326,6 +327,9 @@ public class BeanMapping {
         Field[] declaredFields = cla.getDeclaredFields();
         for (Field field : declaredFields) {
             Field declaredField;
+            if (Modifier.isStatic(field.getModifiers()) || field.getName().contains("serial")) {
+                continue;
+            }
             try {
                 assert instance != null;
                 declaredField = instance.getClass().getDeclaredField(field.getName());
@@ -340,7 +344,7 @@ public class BeanMapping {
                     }
                 }
             } catch (NoSuchFieldException e) {
-                // todo
+                //
             }
         }
         return instance;
