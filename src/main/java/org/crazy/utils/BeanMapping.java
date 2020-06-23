@@ -4,14 +4,16 @@ import com.alibaba.fastjson.JSON;
 import lombok.NonNull;
 import org.crazy.common.Assert;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 2.0.1
+ * @version 2.1
  */
 public class BeanMapping {
 
@@ -40,7 +42,7 @@ public class BeanMapping {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         R instance = getInstanceObject(source, target);
-        if (biConsumer != null) {
+        if (instance != null && biConsumer != null) {
             biConsumer.accept(source, instance);
         }
         return instance;
@@ -313,41 +315,74 @@ public class BeanMapping {
     }
 
     private static <T, R> R getInstanceObject(T source, Class<R> target) {
-        R instance = null;
+        R instance;
         try {
-            instance = target.newInstance();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            System.err.println("目标类:" + target.getName() + "缺少无参构造方法");
+            instance = target.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            System.err.println("目标类:" + target.getName() + "不能被实例化");
+            return null;
+        } catch (NoSuchMethodException | InvocationTargetException e) {
+            System.err.println("目标类:" + target.getName() + "缺少默认构造方法");
             e.printStackTrace();
             return null;
         }
-        Class<?> cla = source.getClass();
-        Field[] declaredFields = cla.getDeclaredFields();
+        Set<Field> declaredFields = new HashSet<>();
+        getSourceFields(source.getClass(), declaredFields);
+
         for (Field field : declaredFields) {
-            Field declaredField;
-            if (Modifier.isStatic(field.getModifiers()) || field.getName().contains("serial")) {
-                continue;
-            }
-            try {
-                assert instance != null;
-                declaredField = instance.getClass().getDeclaredField(field.getName());
-                if (declaredField != null && field.getType().equals(declaredField.getType())) {
-                    field.setAccessible(true);
-                    declaredField.setAccessible(true);
-                    try {
-                        Object val = field.get(source);
-                        declaredField.set(instance, val);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
+            HashMap<String, Field> fieldMap = new HashMap<>();
+
+            getInstanceFields(instance.getClass(), fieldMap);
+            if (fieldMap.containsKey(field.getName())) {
+                Field instanceField = fieldMap.get(field.getName());
+                field.setAccessible(true);
+                instanceField.setAccessible(true);
+                try {
+                    Object val = field.get(source);
+                    instanceField.set(instance, val);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
-            } catch (NoSuchFieldException e) {
-                //
             }
         }
         return instance;
+    }
+
+    private static <T> void getSourceFields(Class<T> sourceCla, Set<Field> declaredFields) {
+        boolean serialize = false;
+        if (!Object.class.equals(sourceCla.getSuperclass())) {
+            getSourceFields(sourceCla.getSuperclass(), declaredFields);
+        }
+        Class<?>[] interfaces = sourceCla.getInterfaces();
+        for (Class<?> inter : interfaces) {
+            if (Serializable.class.equals(inter)) {
+                serialize = true;
+                break;
+            }
+        }
+        Field[] fields = sourceCla.getDeclaredFields();
+        // Static property does not map
+        for (Field field : fields) {
+            if (serialize) {
+                if (!Modifier.isStatic(field.getModifiers()) || !field.getName().contains("serial")) {
+                    declaredFields.add(field);
+                }
+            } else {
+                if (!Modifier.isStatic(field.getModifiers())) {
+                    declaredFields.add(field);
+                }
+            }
+        }
+    }
+
+    private static <T> void getInstanceFields(Class<?> instanceCla, HashMap<String, Field> declaredFields) {
+        if (!Object.class.equals(instanceCla.getSuperclass())) {
+            getInstanceFields(instanceCla.getSuperclass(), declaredFields);
+        }
+        Field[] fields = instanceCla.getDeclaredFields();
+        for (Field field : fields) {
+            declaredFields.put(field.getName(), field);
+        }
     }
 
     private static <T, R> void getInstanceCollection(Collection<R> targetCollection, Collection<T> source, Class<R> target, BiConsumer<T, R> biConsumer) {

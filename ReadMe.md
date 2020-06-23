@@ -20,11 +20,17 @@
 1.修复静态属性抛出异常问题
 2.修复实现序列化无法映射问题
 
+##### 2.1 版本发布
+##### 新增功能
+1.新增嵌套映射,支持继承类映射
+##### 修复
+1.修复映射类为抽象类错误
+
 ##### maven依赖
 ```xml
 <dependency>
   <groupId>com.github.xr2117</groupId>
   <artifactId>bean-mapping</artifactId>
-  <version>2.0.1</version>
+  <version>2.1.0</version>
 </dependency>
 ```
