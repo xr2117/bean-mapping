@@ -90,13 +90,15 @@ toJsonSet(Collection<T> source, Class<R> target, BiConsumer<T, R> biConsumer)
 
 如果需要使用已发布的版本，在 `dependencyManagement` 中添加如下配置。
 
-	<dependencies>
-		<dependency>
-	        <groupId>com.github.xr2117</groupId>
-	        <artifactId>bean-mapping</artifactId>
-	        <version>2.1.0</version>
-	    </dependency>
-	 </dependencies>
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.github.xr2117</groupId>
+        <artifactId>bean-mapping</artifactId>
+        <version>2.1.0</version>
+    </dependency>
+</dependencies>
+```
 
 然后在 `dependencies` 中添加自己所需使用的依赖即可使用。
 
