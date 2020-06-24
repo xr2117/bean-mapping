@@ -100,9 +100,6 @@ toJsonSet(Collection<T> source, Class<R> target, BiConsumer<T, R> biConsumer)
 
 然后在 `dependencies` 中添加自己所需使用的依赖即可使用。
 
-https://github.com/alibaba/spring-cloud-alibaba/blob/master/spring-cloud-alibaba-examples/schedulerx-example/schedulerx-simple-task-example/readme-zh.md)
-
-
 ## 社区交流
 
 ### 邮件列表
