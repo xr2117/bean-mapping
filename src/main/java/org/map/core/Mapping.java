@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 2.1.0
+ * @version 2.1.1
  */
 public class Mapping {
 
@@ -28,11 +28,10 @@ public class Mapping {
         }
         Set<Field> declaredFields = new HashSet<>();
         getSourceFields(source.getClass(), declaredFields);
+        HashMap<String, Field> fieldMap = new HashMap<>();
+        getInstanceFields(target, fieldMap);
 
         for (Field field : declaredFields) {
-            HashMap<String, Field> fieldMap = new HashMap<>();
-
-            getInstanceFields(instance.getClass(), fieldMap);
             if (fieldMap.containsKey(field.getName())) {
                 Field instanceField = fieldMap.get(field.getName());
                 if (field.getType().equals(instanceField.getType())) {
@@ -83,7 +82,10 @@ public class Mapping {
         }
         Field[] fields = instanceCla.getDeclaredFields();
         for (Field field : fields) {
-            declaredFields.put(field.getName(), field);
+            // Static property does not map
+            if (!Modifier.isStatic(field.getModifiers())) {
+                declaredFields.put(field.getName(), field);
+            }
         }
     }
 
