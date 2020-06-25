@@ -95,15 +95,14 @@ toJsonSet(Collection<T> source, Class<R> target, BiConsumer<T, R> biConsumer)
     <dependency>
         <groupId>com.github.xr2117</groupId>
         <artifactId>bean-mapping</artifactId>
-        <version>2.1.0</version>
+        <version>2.1.1</version>
     </dependency>
 </dependencies>
 ```
 
 然后在 `dependencies` 中添加自己所需使用的依赖即可使用。
 
-## 社区交流
 
 ### 邮件列表
 
-xr2117@126.com，欢迎通过此邮件列表讨论与 **BeanMapping** 相关的一切。
+xr2117@126.com，欢迎通过此邮件讨论与 **BeanMapping** 相关的一切。

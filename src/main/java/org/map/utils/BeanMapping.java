@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 2.1.0
+ * @version 2.1.1
  */
 public class BeanMapping extends Mapping {
 
@@ -39,7 +39,7 @@ public class BeanMapping extends Mapping {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         R instance = getInstanceObject(source, target);
-        if (!Objects.isNull(instance) && biConsumer != null) {
+        if (!Objects.isNull(instance) && !Objects.isNull(biConsumer)) {
             biConsumer.accept(source, instance);
         }
         return instance;
