@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 2.1.1
+ * @version 2.1.2
  */
 public class Mapping {
 

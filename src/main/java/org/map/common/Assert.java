@@ -5,7 +5,7 @@ import lombok.NonNull;
 
 /**
  * @author Crazy.X
- * @version 2.1.1
+ * @version 2.1.2
  */
 public class Assert {
 

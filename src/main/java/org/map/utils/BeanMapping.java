@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
 
 /**
  * @author Crazy.X
- * @version 2.1.1
+ * @version 2.1.2
  */
 public class BeanMapping extends Mapping {
 
@@ -70,7 +70,9 @@ public class BeanMapping extends Mapping {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         List<R> targetCollection = new ArrayList<>();
-        getInstanceCollection(targetCollection, source, target, biConsumer);
+        if (!source.isEmpty()) {
+            getInstanceCollection(targetCollection, source, target, biConsumer);
+        }
         return targetCollection;
     }
 
@@ -129,13 +131,15 @@ public class BeanMapping extends Mapping {
     public static <T, R> List<R> toListRange(@NonNull List<T> source, @NonNull Class<R> target, @NonNull int skip, @NonNull int limit, BiConsumer<T, R> biConsumer) {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
-        if (skip > source.size() || limit < skip || limit < 0 || skip == limit) {
-            return Collections.emptyList();
-        }
         List<R> targetCollection = new ArrayList<>();
-        int end = limit > source.size() ? source.size() : limit;
-        getInstanceCollection(targetCollection, source.subList(skip < 0 ? 0 : skip, end), target, biConsumer);
-        toList(source, target, null);
+        if (!source.isEmpty()) {
+            if (skip > source.size() || limit < skip || limit < 0 || skip == limit) {
+                return Collections.emptyList();
+            }
+            int end = limit > source.size() ? source.size() : limit;
+            getInstanceCollection(targetCollection, source.subList(skip < 0 ? 0 : skip, end), target, biConsumer);
+            toList(source, target, null);
+        }
         return targetCollection;
     }
 
@@ -164,7 +168,9 @@ public class BeanMapping extends Mapping {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         Set<R> targetCollection = new HashSet<>();
-        getInstanceCollection(targetCollection, source, target, biConsumer);
+        if (!source.isEmpty()) {
+            getInstanceCollection(targetCollection, source, target, biConsumer);
+        }
         return targetCollection;
     }
 
@@ -220,7 +226,9 @@ public class BeanMapping extends Mapping {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         List<R> targetCollection = new ArrayList<>();
-        getInstanceCollection(targetCollection, source, target, biConsumer);
+        if (!source.isEmpty()) {
+            getInstanceCollection(targetCollection, source, target, biConsumer);
+        }
         return JSON.toJSONString(targetCollection);
     }
 
@@ -305,7 +313,9 @@ public class BeanMapping extends Mapping {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "target must not be null");
         Set<R> targetCollection = new HashSet<>();
-        getInstanceCollection(targetCollection, source, target, biConsumer);
+        if (!source.isEmpty()) {
+            getInstanceCollection(targetCollection, source, target, biConsumer);
+        }
         return JSON.toJSONString(targetCollection);
     }
 }

@@ -95,7 +95,7 @@ toJsonSet(Collection<T> source, Class<R> target, BiConsumer<T, R> biConsumer)
     <dependency>
         <groupId>com.github.xr2117</groupId>
         <artifactId>bean-mapping</artifactId>
-        <version>2.1.1</version>
+        <version>2.1.2</version>
     </dependency>
 </dependencies>
 ```
